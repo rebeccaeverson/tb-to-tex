@@ -10,86 +10,35 @@ class Entry:
 	def __init__(self, fields):
 		try:
 			self.lx = fields['lx']
-			#self.ph = fields['ph'].strip('/')
 			self.ps = fields.get('ps', "")
-			self.hm = fields.get('hm', "")
+			self.de = fields.get('de', "")
 			self.senses = fields['senses']
-			self.pdl = fields['pdl']
-			self.pdv = fields['pdv']
-			self.sg = fields.get('sg', "")
-			self.onep = fields.get('1p', "")
-			self.twop = fields.get('2p', "")
-			self.va = fields['va']
-			self.subentries = fields['subentries']
+			self.cf = fields.get('cf', "")
+			self.et = fields.get('et', "")
 		except KeyError as e:
 			print(e)
 			print(self.lx)
 
 	def toTex(self):
-		#string = "\\LX{{{lex}}} \\HM{{{hom}}} \\PH{{{phone}}} \\PS{{{part}}} ".format(lex = self.lx,
-		#	phone = self.ph, part = self.ps, hom = self.hm)
-		string = "\\LX{{{lex}}} \\HM{{{hom}}} \\PS{{{part}}} ".format(lex = self.lx,
-			part = self.ps, hom = self.hm)
-		#print(self.lx)
+		string = "\\LX{{{lex}}} \\PS{{{part}}} ".format(lex = self.lx, part = self.ps)
 		for sense in self.senses:
-			if 'sn' in sense:
-				string += "\\SN "
-			if 'ps' in sense:
-				string += "\\PS{{{ps}}} ".format(ps = sense['ps'])
 			string += "\\GE{{{eng}}} ".format(eng = sense['ge'])
+			if self.de:
+				string += "\\DE{{{de}}} ".format(de = self.de)
 			for example, translation in zip(sense['xv'], sense['xe']):
 				if example != "":
 					string += "\\XV{{{xv}}} \\XE{{{xe}}} ".format(xv = example, xe = translation)
-
-		if self.ps == "v.~":
-			#zip together paradigm labels and values, map values to labels in dictionary
-			paradigmDict = {label: value for label, value in zip(self.pdl, self.pdv)}
-	
-			#count how many of each paradigm label is missing a value
-			for paradigm in missingParadigms:
-				if paradigmDict.get(paradigm, "") == "":
-					missingParadigms[paradigm] += 1
-
-			#include paradigm values for perfect, imperfect, agent sing., agent plur., 
-			#agent -aa sing., and agent -aa plur. in that order. If one of the paradigm
-			#values does not exist, replace with a dash.
-			paradigmString = "{perf}, {imperf}, {agsing}, {agplur}, {aasing}, {aaplur} ".format(
-				perf = paradigmDict.get("perfect", "-") or "-",
-				imperf = paradigmDict.get("imperfect", "-") or "-",
-				agsing = paradigmDict.get("agent sing.", "-") or "-",
-				agplur = paradigmDict.get("agent plur.", "-") or "-",
-				aasing = paradigmDict.get("agent -aa sing.", "-") or "-",
-				aaplur = paradigmDict.get("agent -aa plur.", "-") or "-")
-
-			string += "\\PD{{{paradigms}}} ".format(paradigms = paradigmString)
-
-		if self.ps == "n~" or self.ps == "n.~":
-			if self.sg != "":
-				string += "\\SG{{{sing}}} ".format(sing = self.sg)
-			if self.onep != "":
-				string += "\\OP{{{onep}}} ".format(onep = self.onep)
-			if self.twop != "":
-				string += "\\TP{{{twop}}} ".format(twop = self.twop)
-
-		if self.ps == "adj~" or self.ps == "adj.~":
-			if self.onep != "":
-				string += "\\OP{{{onep}}} ".format(onep = self.onep)
-			if self.twop != "":
-				string += "\\TP{{{twop}}} ".format(twop = self.twop)
-
-		variantForms = ""
-		for v in self.va:
-			string += "\\VA{{{var}}}".format(var = v)
-
-		for k, v in self.subentries:
-			string += "\\SE{{{sub}}} \\GE{{{eng}}} ".format(sub = k, eng = v)
+		if self.cf:
+			string += "\\CF{{{cross}}} ".format(cross = self.cf)
+		if self.et:
+			string += "\\ET{{{et}}} ".format(et = self.et)
 
 		return string
 
 #escape characters in Latex
 def escape(text):
 	string = ""
-	specialChars = ['_', '\\']
+	specialChars = ['_', '\\', '&', '{', '}', '#']
 
 	#replacing inconsistent characters with the "standard" character - some entries were entered
 	#into Word before Toolbox, and this copying over produced some 'weird' characters
@@ -118,7 +67,7 @@ def escape(text):
 
 def parseTB(text):
 
-	ignored = ['dt', 'nq', 'pd', 'so', 'es', 'de', 'nt']
+	ignored = ['dt', 'nq', 'pd', 'so', 'es', 'nt']
 	#senses includes examples (xv, xe) even if there isn't an "sn" marker to go with them
 	multiple = ['pdl', 'pdv', 'senses','subentries', 'va']
 	#fields that can appear after 'sn' (included in the sense)
