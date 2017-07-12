@@ -15,67 +15,67 @@
 
 
 
-\newcommand\LX[1] {\stepcounter{lx}  \item[\textbf{#1}]  	\setcounter{denum}{0} \setcounter{sense}{0} \setcounter{hm}{0}
+\newcommand\tbLX[1] {\stepcounter{lx}  \item[\textbf{#1}]  	\setcounter{denum}{0} \setcounter{sense}{0} \setcounter{hm}{0}
 \setcounter{dnnum}{0}	}%essentially, the \LX command is an \item command. In addition, it prints its argument in bold, steps up the lx counter and resets a number of other counters.
 
 
-\newcommand\A[1]{\emph{also:} \textbf{#1}}%if you have alternative versions of one lexeme in the \a field, they will be given in bold, after "also:"
+\newcommand\tbA[1]{\emph{also:} \textbf{#1}}%if you have alternative versions of one lexeme in the \a field, they will be given in bold, after "also:"
 
-\newcommand\PS[1]{\emph{#1}}%part of speech information is italicized
+\newcommand\tbPS[1]{\emph{#1}}%part of speech information is italicized
 
-\newcommand\UE[1]{[#1]}%usage information is given plainly
+\newcommand\tbUE[1]{[#1]}%usage information is given plainly
 
 
 %formatting paradim information
-\newcommand\SG[1]{\emph{sg:} \textbf{#1} }
-\newcommand\OP[1]{\emph{pl:} \textbf{#1} }
-\newcommand\TP[1]{\emph{2pl:} \textbf{#1} }
-\newcommand\PD[1]{\textbf{#1}}
+\newcommand\tbSG[1]{\emph{sg:} \textbf{#1} }
+\newcommand\tbOP[1]{\emph{pl:} \textbf{#1} }
+\newcommand\tbTP[1]{\emph{2pl:} \textbf{#1} }
+\newcommand\tbPD[1]{\textbf{#1}}
 
 %A number of commands are deleted
-\newcommand\GR[1]{}
-\newcommand\DR[1]{}
-\newcommand\XR[1]{}
+\newcommand\tbGR[1]{}
+\newcommand\tbDR[1]{}
+\newcommand\tbXR[1]{}
 
-\newcommand\RD[1]{\emph{redup:} \textbf{#1}}%reduplicated forms are identified
+\newcommand\tbRD[1]{\emph{redup:} \textbf{#1}}%reduplicated forms are identified
 
-\newcommand\U[1]{}% underlying forms are deleted
+\newcommand\tbU[1]{}% underlying forms are deleted
 
 %The next  lines of code make sure that if there is a definition in addition to a gloss, only the definition is printed
-\newcommand\DN[1]{\stepcounter{dnnum}#1}
-\newcommand\GN[1]{\ifnum\thednnum=0#1\fi}
-\newcommand\DE[1]{\stepcounter{denum}\emph{En.}\,#1}
-\newcommand\GE[1]{\ifnum\thedenum=0 #1\fi}
+\newcommand\tbDN[1]{\stepcounter{dnnum}#1}
+\newcommand\tbGN[1]{\ifnum\thednnum=0#1\fi}
+\newcommand\tbDE[1]{\stepcounter{denum}\emph{En.}\,#1}
+\newcommand\tbGE[1]{\ifnum\thedenum=0 #1\fi}
 
 
 
-\newcommand\PH[1]{{[}#1{]}} %activate if you want to include phonetic transcriptions
+\newcommand\tbPH[1]{{[}#1{]}} %activate if you want to include phonetic transcriptions
 
-\newcommand\SC[1]{$\diamond$\,\emph{#1}}
+\newcommand\tbSC[1]{$\diamond$\,\emph{#1}}
 
 %Examples are given in bold italics, followed by the translation into the national language, followed by the translation into English, which is prefixed by "En." in italics
-\newcommand\XV[1]{\textbf{\textbullet\, \emph{#1}}}
-\newcommand\XN[1]{#1}
-\newcommand\XE[1]{#1}
+\newcommand\tbXV[1]{\textbf{\textbullet\, \emph{#1}}}
+\newcommand\tbXN[1]{#1}
+\newcommand\tbXE[1]{#1}
 
-\newcommand\VA[1]{\emph{See also:} \textbf{#1}}
+\newcommand\tbVA[1]{\emph{See also:} \textbf{#1}}
 
-\newcommand\SY[1]{\emph{Syn:} \textbf{#1} }%for synonyms
-\newcommand\SYN[1]{\emph{Syn:} \textbf{#1} }
+\newcommand\tbSY[1]{\emph{Syn:} \textbf{#1} }%for synonyms
+\newcommand\tbSYN[1]{\emph{Syn:} \textbf{#1} }
 
-\newcommand\CF[1]{\emph{see:} \textbf{#1}}%for cross-references
+\newcommand\tbCF[1]{\emph{see:} \textbf{#1}}%for cross-references
 
-\newcommand\HM[1]{\textsubscript{#1}}%for homonyms
+\newcommand\tbHM[1]{\textsubscript{#1}}%for homonyms
 
-\newcommand\SN{\stepcounter{sense} \textbf{(\arabic{sense}) }}%the \SN command which has been generated from the \sn field is automatically numbered, the number is printed in bold
+\newcommand\tbSN{\stepcounter{sense} \textbf{(\arabic{sense}) }}%the \SN command which has been generated from the \sn field is automatically numbered, the number is printed in bold
 
-\newcommand\SE[1]{\stepcounter{se}  \newline \textbf{#1}}%for subentries
+\newcommand\tbSE[1]{\stepcounter{se}  \newline \textbf{#1}}%for subentries
 
 %for encyclopedic explanations
-\newcommand\EE[1]{[#1]}
-\newcommand\EN[1]{[#1]}
+\newcommand\tbEE[1]{[#1]}
+\newcommand\tbEN[1]{[#1]}
 
-\newcommand\EG[1]{\emph{et.} #1}%for etymological information
+\newcommand\tbEG[1]{\emph{et.} #1}%for etymological information
 
-\newcommand\OV[1]{\emph{coll.} \textbf{#1}}%for collocations
+\newcommand\tbOV[1]{\emph{coll.} \textbf{#1}}%for collocations
 

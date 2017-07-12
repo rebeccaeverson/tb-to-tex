@@ -10,7 +10,7 @@ class Entry:
 	def __init__(self, fields):
 		try:
 			self.lx = fields['lx']
-			#self.ph = fields['ph'].strip('/')
+			self.ph = fields['ph'].strip('/')
 			self.ps = fields.get('ps', "")
 			self.hm = fields.get('hm', "")
 			self.senses = fields['senses']
@@ -26,20 +26,17 @@ class Entry:
 			print(self.lx)
 
 	def toTex(self):
-		#string = "\\LX{{{lex}}} \\HM{{{hom}}} \\PH{{{phone}}} \\PS{{{part}}} ".format(lex = self.lx,
-		#	phone = self.ph, part = self.ps, hom = self.hm)
-		string = "\\LX{{{lex}}} \\HM{{{hom}}} \\PS{{{part}}} ".format(lex = self.lx,
-			part = self.ps, hom = self.hm)
-		#print(self.lx)
+		string = "\\tbLX{{{lex}}} \\tbHM{{{hom}}} \\tbPH{{{phone}}} \\tbPS{{{part}}} ".format(lex = self.lx,
+			phone = self.ph, part = self.ps, hom = self.hm)
 		for sense in self.senses:
 			if 'sn' in sense:
-				string += "\\SN "
+				string += "\\tbSN "
 			if 'ps' in sense:
-				string += "\\PS{{{ps}}} ".format(ps = sense['ps'])
-			string += "\\GE{{{eng}}} ".format(eng = sense['ge'])
+				string += "\\tbPS{{{ps}}} ".format(ps = sense['ps'])
+			string += "\\tbGE{{{eng}}} ".format(eng = sense['ge'])
 			for example, translation in zip(sense['xv'], sense['xe']):
 				if example != "":
-					string += "\\XV{{{xv}}} \\XE{{{xe}}} ".format(xv = example, xe = translation)
+					string += "\\tbXV{{{xv}}} \\tbXE{{{xe}}} ".format(xv = example, xe = translation)
 
 		if self.ps == "v.~":
 			#zip together paradigm labels and values, map values to labels in dictionary
@@ -61,35 +58,35 @@ class Entry:
 				aasing = paradigmDict.get("agent -aa sing.", "-") or "-",
 				aaplur = paradigmDict.get("agent -aa plur.", "-") or "-")
 
-			string += "\\PD{{{paradigms}}} ".format(paradigms = paradigmString)
+			string += "\\tbPD{{{paradigms}}} ".format(paradigms = paradigmString)
 
 		if self.ps == "n~" or self.ps == "n.~":
 			if self.sg != "":
-				string += "\\SG{{{sing}}} ".format(sing = self.sg)
+				string += "\\tbSG{{{sing}}} ".format(sing = self.sg)
 			if self.onep != "":
-				string += "\\OP{{{onep}}} ".format(onep = self.onep)
+				string += "\\tbOP{{{onep}}} ".format(onep = self.onep)
 			if self.twop != "":
-				string += "\\TP{{{twop}}} ".format(twop = self.twop)
+				string += "\\tbTP{{{twop}}} ".format(twop = self.twop)
 
 		if self.ps == "adj~" or self.ps == "adj.~":
 			if self.onep != "":
-				string += "\\OP{{{onep}}} ".format(onep = self.onep)
+				string += "\\tbOP{{{onep}}} ".format(onep = self.onep)
 			if self.twop != "":
-				string += "\\TP{{{twop}}} ".format(twop = self.twop)
+				string += "\\tbTP{{{twop}}} ".format(twop = self.twop)
 
 		variantForms = ""
 		for v in self.va:
-			string += "\\VA{{{var}}}".format(var = v)
+			string += "\\tbVA{{{var}}}".format(var = v)
 
 		for k, v in self.subentries:
-			string += "\\SE{{{sub}}} \\GE{{{eng}}} ".format(sub = k, eng = v)
+			string += "\\tbSE{{{sub}}} \\tbGE{{{eng}}} ".format(sub = k, eng = v)
 
 		return string
 
 #escape characters in Latex
 def escape(text):
 	string = ""
-	specialChars = ['_', '\\']
+	specialChars = ['_', '\\', '&', '#', '{', '}']
 
 	#replacing inconsistent characters with the "standard" character - some entries were entered
 	#into Word before Toolbox, and this copying over produced some 'weird' characters
