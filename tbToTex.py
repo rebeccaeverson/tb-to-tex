@@ -215,9 +215,7 @@ def parseTB(text):
     return entries
 
 
-if __name__ == '__main__':
-    tbfile = sys.argv[1]
-
+def main(tbfile):
     file = open(tbfile)
     outputfile = open("texConvert.tex", 'w')
     text = file.read()
@@ -230,3 +228,7 @@ if __name__ == '__main__':
     print("Number of verb entries with missing paradigm information:")
     for paradigm in missingParadigms:
         print(paradigm + ": " + str(missingParadigms[paradigm]))
+
+
+if __name__ == '__main__':
+    main(sys.argv[1])
