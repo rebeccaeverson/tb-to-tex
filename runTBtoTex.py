@@ -9,10 +9,17 @@ if __name__ == '__main__':
                         metavar='F',
                         type=str,
                         help='the Toolbox file to process')
+    parser.add_argument('--style',
+    	metavar='S',
+    	type=str,
+    	help='the style template to use in LaTeX')
     args = parser.parse_args()
 
     try:
-        tbToTex.main(args.tbfile)
+    	if args.style:
+    		tbToTex.user_input_style(args.tbfile, args.style)
+        else:
+        	tbToTex.main(args.tbfile)
         subprocess.call('xelatex main.tex', shell=True)
         print("Success!")
     except Exception as e:
