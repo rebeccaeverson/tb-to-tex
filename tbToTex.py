@@ -1,17 +1,32 @@
 from model import missingParadigms, Entry
 from parse import parseTB, parseStyle
+from customStyle import createStyleFile
 
 
 def user_input_style(tbfile, stylefile):
-	tb = open(tbfile)
-	text = tb.read()
-	style = open(stylefile)
-	output = open('texConvert.tex', 'w')
-	entries = parseTB(text)
-	stylelist = parseStyle(style)
+    tb = open(tbfile)
+    text = tb.read()
+    style = open(stylefile)
+    output = open('texConvert.tex', 'w')
+    entries = parseTB(text)
+    stylelist = parseStyle(style)
+    rules = createStyleFile(stylelist)
 
-	for entry in entries:
-		output.write(entry.toCustomTex(stylelist) + '\n')
+    tex_style_file = open('dict.sty', 'w')
+    tex_style_file.write('\\ProvidesPackage{dict}[2009]\n')
+    tex_style_file.write('\\NeedsTeXFormat{LaTeX2e}[2001/06/01]\n')
+    tex_style_file.write('\\RequirePackage{textcomp}\n')
+    tex_style_file.write('\\RequirePackage{paralist}\n\n')
+    for rule in rules:
+        tex_style_file.write(rule + '\n')
+
+    for entry in entries:
+       output.write(entry.toCustomTex(stylelist) + '\n')
+
+    tb.close()
+    style.close()
+    output.close()
+    tex_style_file.close()
 
 
 def main(tbfile):

@@ -28,9 +28,9 @@ class Entry:
             label = item[0].upper()
             if label == 'GE':
                 ge = self.senses[0]['ge']
-                string += '\\tb{0}{{{value}}}'.format(label, value=ge)
+                string += '\\tb{0}{{{value}}} '.format(label, value=ge)
             else:
-                string += '\\tb{0}{{{value}}}'.format(label, value=getattr(self, item[0]))
+                string += '\\tb{0}{{{value}}} '.format(label, value=getattr(self, item[0]))
         return string
 
     def toTex(self):

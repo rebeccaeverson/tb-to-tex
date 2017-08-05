@@ -2,6 +2,7 @@ import argparse
 import subprocess
 import tbToTex
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='Translate a TB file into a LaTeX dictionary')

@@ -45,8 +45,10 @@ def parseStyle(stylefile):
     for line in stylefile:
         rules = line.strip('\n').split(',')
         label = rules[0]
-        isRequired = rules[1] == 'true'
-        stylelist.append((label, isRequired))
+        isBold = rules[1] == 'true'
+        isEmph = rules[2] == 'true'
+        textSize = rules[3]
+        stylelist.append((label, isBold, isEmph, textSize))
     return stylelist
 
 

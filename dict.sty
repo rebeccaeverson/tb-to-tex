@@ -1,81 +1,8 @@
 \ProvidesPackage{dict}[2009]
 \NeedsTeXFormat{LaTeX2e}[2001/06/01]
-
 \RequirePackage{textcomp}
-%\RequirePackage{fixltx2e}
 \RequirePackage{paralist}
 
-%a number of counters
-\newcounter{lx}
-\newcounter{denum}
-\newcounter{dnnum}
-\newcounter{sense}
-\newcounter{hm}
-\newcounter{se}
-
-
-
-\newcommand\tbLX[1] {\stepcounter{lx}  \item[\textbf{#1}]  	\setcounter{denum}{0} \setcounter{sense}{0} \setcounter{hm}{0}
-\setcounter{dnnum}{0}	}%essentially, the \LX command is an \item command. In addition, it prints its argument in bold, steps up the lx counter and resets a number of other counters.
-
-
-\newcommand\tbA[1]{\emph{also:} \textbf{#1}}%if you have alternative versions of one lexeme in the \a field, they will be given in bold, after "also:"
-
-\newcommand\tbPS[1]{\emph{#1}}%part of speech information is italicized
-
-\newcommand\tbUE[1]{[#1]}%usage information is given plainly
-
-
-%formatting paradim information
-\newcommand\tbSG[1]{\emph{sg:} \textbf{#1} }
-\newcommand\tbOP[1]{\emph{pl:} \textbf{#1} }
-\newcommand\tbTP[1]{\emph{2pl:} \textbf{#1} }
-\newcommand\tbPD[1]{\textbf{#1}}
-
-%A number of commands are deleted
-\newcommand\tbGR[1]{}
-\newcommand\tbDR[1]{}
-\newcommand\tbXR[1]{}
-
-\newcommand\tbRD[1]{\emph{redup:} \textbf{#1}}%reduplicated forms are identified
-
-\newcommand\tbU[1]{}% underlying forms are deleted
-
-%The next  lines of code make sure that if there is a definition in addition to a gloss, only the definition is printed
-\newcommand\tbDN[1]{\stepcounter{dnnum}#1}
-\newcommand\tbGN[1]{\ifnum\thednnum=0#1\fi}
-\newcommand\tbDE[1]{\stepcounter{denum}\emph{En.}\,#1}
-\newcommand\tbGE[1]{\ifnum\thedenum=0 #1\fi}
-
-
-
-\newcommand\tbPH[1]{{[}#1{]}} %activate if you want to include phonetic transcriptions
-
-\newcommand\tbSC[1]{$\diamond$\,\emph{#1}}
-
-%Examples are given in bold italics, followed by the translation into the national language, followed by the translation into English, which is prefixed by "En." in italics
-\newcommand\tbXV[1]{\textbf{\textbullet\, \emph{#1}}}
-\newcommand\tbXN[1]{#1}
-\newcommand\tbXE[1]{#1}
-
-\newcommand\tbVA[1]{\emph{See also:} \textbf{#1}}
-
-\newcommand\tbSY[1]{\emph{Syn:} \textbf{#1} }%for synonyms
-\newcommand\tbSYN[1]{\emph{Syn:} \textbf{#1} }
-
-\newcommand\tbCF[1]{\emph{see:} \textbf{#1}}%for cross-references
-
-\newcommand\tbHM[1]{\textsubscript{#1}}%for homonyms
-
-\newcommand\tbSN{\stepcounter{sense} \textbf{(\arabic{sense}) }}%the \SN command which has been generated from the \sn field is automatically numbered, the number is printed in bold
-
-\newcommand\tbSE[1]{\stepcounter{se}  \newline \textbf{#1}}%for subentries
-
-%for encyclopedic explanations
-\newcommand\tbEE[1]{[#1]}
-\newcommand\tbEN[1]{[#1]}
-
-\newcommand\tbEG[1]{\emph{et.} #1}%for etymological information
-
-\newcommand\tbOV[1]{\emph{coll.} \textbf{#1}}%for collocations
-
+\newcommand\tbLX[1] {\item[\textbf{\fontsize{12}{14.4}\selectfont #1}]}
+\newcommand\tbPS[1] {\emph{\fontsize{10}{12.0}\selectfont #1}}
+\newcommand\tbGE[1] {\fontsize{11}{13.2}\selectfont #1}
