@@ -1,7 +1,16 @@
+# coding=utf-8
+
 missingParadigms = {field: 0
                     for field in ["perfect", "imperfect", "agent sing.",
                                   "agent plur.", "agent -aa sing.",
                                   "agent -aa plur."]}
+
+double_char = ['gb', 'gy', 'kp', 'ky', 'ny', u'ŋm']
+alphabet = [
+    'a', 'b', 'd', 'e', u'ɛ', 'f', 'g', 'gb', 'gy', 'h', 'i', 'k',
+    'kp', 'ky', 'l', 'm', 'n', 'ny', u'ŋ', u'ŋm', 'o', u'ɔ', 'p', 'r', 's',
+    't', 'u', 'v', 'w', 'y', 'z']
+
 
 class Entry:
     def __init__(self, fields):
@@ -21,6 +30,44 @@ class Entry:
         except KeyError as e:
             print(e)
             print(self.lx)
+
+    def __lt__(self, other):
+        lx1 = self.lx.decode('utf8').lower()
+        lx2 = other.lx.decode('utf8').lower()
+        ph1 = self.ph.decode('utf8').lower()
+        ph2 = other.ph.decode('utf8').lower()
+
+        idx1 = 0
+        idx2 = 0
+
+        while idx1 < len(lx1) and idx2 < len(lx2):
+            if lx1[idx1:idx1+2] in double_char:
+                char1 = lx1[idx1:idx1+2]
+            else:
+                char1 = lx1[idx1]
+            if lx2[idx2:idx2+2] in double_char:
+                char2 = lx2[idx2:idx2+2]
+            else:
+                char2 = lx2[idx2]
+
+            try:
+                pos1 = alphabet.index(char1)
+            except ValueError:
+                idx1 += len(char1)
+                continue
+            try:
+                pos2 = alphabet.index(char2)
+            except ValueError:
+                idx2 += len(char2)
+                continue
+
+            if pos1 == pos2:
+                idx1 += len(char1)
+                idx2 += len(char2)
+            else:
+                return pos1 < pos2
+
+        return len(lx1) < len(lx2)
 
     def toCustomTex(self, styledict):
         string = ''

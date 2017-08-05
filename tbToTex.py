@@ -20,14 +20,6 @@ def user_input_style(tbfile, stylefile):
     for rule in rules:
         tex_style_file.write(rule + '\n')
 
-    for entry in entries:
-       output.write(entry.toCustomTex(stylelist) + '\n')
-
-    tb.close()
-    style.close()
-    output.close()
-    tex_style_file.close()
-
 
 def main(tbfile):
     file = open(tbfile)
@@ -36,7 +28,7 @@ def main(tbfile):
     entries = parseTB(text)
     print(len(entries))
 
-    for entry in entries:
+    for entry in sorted(entries):
         outputfile.write(entry.toTex() + '\n')
 
     print("Number of verb entries with missing paradigm information:")
