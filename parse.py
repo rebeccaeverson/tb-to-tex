@@ -52,7 +52,9 @@ def parseStyle(stylefile):
     return stylelist
 
 
-def parseTB(text):
+def parseTB(text, alphabet=None):
+    if alphabet is not None:
+        Entry.alphabet = alphabet
 
     ignored = ['dt', 'nq', 'pd', 'so', 'es', 'de', 'nt']
     # senses includes examples (xv, xe) even if there isn't an "sn" marker to
