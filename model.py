@@ -1,18 +1,39 @@
 # coding=utf-8
+import string
+from collections import defaultdict as ddict
 
 missingParadigms = {field: 0
                     for field in ["perfect", "imperfect", "agent sing.",
                                   "agent plur.", "agent -aa sing.",
                                   "agent -aa plur."]}
 
-double_char = ['gb', 'gy', 'kp', 'ky', 'ny', u'ŋm']
-alphabet = [
-    'a', 'b', 'd', 'e', u'ɛ', 'f', 'g', 'gb', 'gy', 'h', 'i', 'k',
-    'kp', 'ky', 'l', 'm', 'n', 'ny', u'ŋ', u'ŋm', 'o', u'ɔ', 'p', 'r', 's',
-    't', 'u', 'v', 'w', 'y', 'z']
+
+class Alphabet:
+    def __init__(self, letters):
+        self.letters = letters
+
+        # 'len_lets' is a list of pairs of (len, chars) where chars is the
+        # elements of 'letters' partitioned by length. It is sorted from longest
+        # to shortest
+        len_let_map = ddict(list)
+        for let in letters:
+            len_let_map[len(let)].append(let)
+        self.len_lets = sorted(len_let_map.items(), reverse=True)
+
+    def match_longest_letter(self, word, idx):
+        for len_, lets in self.len_lets:
+            char = word[idx:idx + len_]
+            if char in lets:
+                return char, self.letters.index(char)
+
+        # Only reaches here if word[idx] is not in alphabet
+        return word[idx], None
 
 
 class Entry:
+    # Default alphabet
+    alphabet = Alphabet(list(string.lowercase))
+
     def __init__(self, fields):
         try:
             self.lx = fields['lx']
@@ -34,30 +55,21 @@ class Entry:
     def __lt__(self, other):
         lx1 = self.lx.decode('utf8').lower()
         lx2 = other.lx.decode('utf8').lower()
-        ph1 = self.ph.decode('utf8').lower()
-        ph2 = other.ph.decode('utf8').lower()
+        # Entry might not have 'ph' field
+        # ph1 = self.ph.decode('utf8').lower()
+        # ph2 = other.ph.decode('utf8').lower()
 
         idx1 = 0
         idx2 = 0
 
         while idx1 < len(lx1) and idx2 < len(lx2):
-            if lx1[idx1:idx1+2] in double_char:
-                char1 = lx1[idx1:idx1+2]
-            else:
-                char1 = lx1[idx1]
-            if lx2[idx2:idx2+2] in double_char:
-                char2 = lx2[idx2:idx2+2]
-            else:
-                char2 = lx2[idx2]
+            char1, pos1 = Entry.alphabet.match_longest_letter(lx1, idx1)
+            char2, pos2 = Entry.alphabet.match_longest_letter(lx2, idx2)
 
-            try:
-                pos1 = alphabet.index(char1)
-            except ValueError:
+            if pos1 is None:
                 idx1 += len(char1)
                 continue
-            try:
-                pos2 = alphabet.index(char2)
-            except ValueError:
+            if pos2 is None:
                 idx2 += len(char2)
                 continue
 
@@ -80,7 +92,10 @@ class Entry:
                 string += '\\tb{0}{{{value}}} '.format(label, value=getattr(self, item[0]))
         return string
 
-    def toTex(self):
+    def toTex(self, styledict=None):
+        if styledict is not None:
+            return self.toCustomTex(styledict)
+
         string = "\\tbLX{{{lex}}} \\tbHM{{{hom}}} " \
                  "\\tbPH{{{phone}}} \\tbPS{{{part}}} ".format(lex=self.lx,
                                                               phone=self.ph,

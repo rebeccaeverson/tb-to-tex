@@ -11,16 +11,22 @@ if __name__ == '__main__':
                         type=str,
                         help='the Toolbox file to process')
     parser.add_argument('--style',
-    	metavar='S',
-    	type=str,
-    	help='the style template to use in LaTeX')
+                        metavar='S',
+                        type=str,
+                        help='the style template to use in LaTeX')
+    parser.add_argument('--alphabet',
+                        metavar='A',
+                        type=str,
+                        help='the alphabet to use to sort entries')
     args = parser.parse_args()
 
     try:
-    	if args.style:
-    		tbToTex.user_input_style(args.tbfile, args.style)
-        else:
-        	tbToTex.main(args.tbfile)
+        stylelist, alphabet = None, None
+        if args.style:
+            stylelist = tbToTex.user_input_style(args.style)
+        if args.alphabet:
+            alphabet = tbToTex.user_alphabet(args.alphabet)
+        tbToTex.main(args.tbfile, stylelist, alphabet)
         subprocess.call('xelatex main.tex', shell=True)
         print("Success!")
     except Exception as e:
