@@ -90,7 +90,7 @@ class Entry:
                 if example != "":
                     string += "\\tbXV{{{xv}}} \\tbXE{{{xe}}} ".format(xv=example, xe=translation)
 
-        if self.ps == "v.~":
+        if self.ps == "v." or self.ps == "v":
             # zip together paradigm labels and values, map values to labels in dictionary
             paradigmDict = {label: value for label, value in zip(self.pdl, self.pdv)}
 
@@ -112,7 +112,7 @@ class Entry:
 
             string += "\\tbPD{{{paradigms}}} ".format(paradigms=paradigmString)
 
-        if self.ps == "n~" or self.ps == "n.~":
+        if self.ps == "n" or self.ps == "n.":
             if self.sg != "":
                 string += "\\tbSG{{{sing}}} ".format(sing=self.sg)
             if self.onep != "":
@@ -120,7 +120,7 @@ class Entry:
             if self.twop != "":
                 string += "\\tbTP{{{twop}}} ".format(twop=self.twop)
 
-        if self.ps == "adj~" or self.ps == "adj.~":
+        if self.ps == "adj" or self.ps == "adj.":
             if self.onep != "":
                 string += "\\tbOP{{{onep}}} ".format(onep=self.onep)
             if self.twop != "":
